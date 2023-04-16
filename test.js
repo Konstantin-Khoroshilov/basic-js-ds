@@ -1,45 +1,34 @@
-function removeKFromList(l, k) {
-  function add(item, newItem) {
-    if (item.next === null) {
-      item.next = newItem;
-      return;
-    }
-    add(item.next, newItem);
+
+/**
+ * Implement the Stack with a given interface via array.
+ *
+ * const stack = new Stack();
+ *
+ * stack.push(1); // adds the element to the stack
+ * stack.peek(); // returns the peek, but doesn't delete it, returns 1
+ * stack.pop(); // returns the top element from stack and deletes it, returns 1
+ * stack.pop(); // undefined
+ *
+ */
+class Stack {
+  constructor() {
+    this.stack = [];
   }
-  let result = {}
-  function checkList(l, k) {
-    if (l === null) return;
-    if (l.value !== k) {
-      if (!result.value) {
-        result = {value: l.value, next: null};
-      } else {
-        add(result, { value: l.value, next: null });
-      }
-    }
-    checkList(l.next, k);
+  push(element) {
+    this.stack.push(element);
   }
-  checkList(l, k);
-  return result;
+
+  pop() {
+    return this.stack.pop();
+  }
+
+  peek() {
+    return this.stack[this.stack.length - 1];
+  }
 }
 
-const list = {
-  value: 3,
-  next: {
-    value: 1,
-    next: {
-      value: 2,
-      next: {
-        value: 3,
-        next: {
-          value: 4,
-          next: {
-            value: 5,
-            next: null,
-          }
-        }
-      }
-    }
-  }
-}
-const k = 3;
-console.log(removeKFromList(list, k))
+const stack = new Stack;
+stack.push(1)
+stack.pop()
+stack.push(2)
+console.log(stack.stack)
