@@ -1,51 +1,45 @@
-class ListNode {
-  constructor(x) {
-    this.value = x;
-    this.next = null;
-  }
-}
-
-class Queue {
-  constructor() {
-    this.currentItem = null;
-  }
-
-  getUnderlyingList() {
-    function show(item) {
-      if (item.next === null) return item;
-      return { ...show(item.next), ...item };
+function removeKFromList(l, k) {
+  function add(item, newItem) {
+    if (item.next === null) {
+      item.next = newItem;
+      return;
     }
-    return show(this.firstItem);
+    add(item.next, newItem);
   }
-
-  enqueue(value) {
-    function add(item, newItem) {
-      if (item.next === null) {
-        item.next = newItem;
-        return;
+  let result = {}
+  function checkList(l, k) {
+    if (l === null) return;
+    if (l.value !== k) {
+      if (!result.value) {
+        result = {value: l.value, next: null};
+      } else {
+        add(result, { value: l.value, next: null });
       }
-      add(item.next, newItem);
     }
-    const newItem = new ListNode(value);
-    if (!this.firstItem) {
-      this.firstItem = newItem;
-    } else {
-      add(this.firstItem, newItem)
-    }
+    checkList(l.next, k);
   }
-
-  dequeue() {
-    const deletedValue = this.firstItem ? this.firstItem.value : null;
-    this.firstItem = this.firstItem ? this.firstItem.next : null;
-    return deletedValue;
-  }
+  checkList(l, k);
+  return result;
 }
 
-const queue = new Queue();
-
-queue.enqueue(8)
-queue.enqueue(15)
-queue.enqueue(46)
-console.log(queue.getUnderlyingList())
-queue.dequeue()
-console.log(queue.getUnderlyingList())
+const list = {
+  value: 3,
+  next: {
+    value: 1,
+    next: {
+      value: 2,
+      next: {
+        value: 3,
+        next: {
+          value: 4,
+          next: {
+            value: 5,
+            next: null,
+          }
+        }
+      }
+    }
+  }
+}
+const k = 3;
+console.log(removeKFromList(list, k))
